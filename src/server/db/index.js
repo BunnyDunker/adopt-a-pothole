@@ -112,7 +112,20 @@ db.sync({ force: true })
       fill_cost: 100,
       money_donated: 80,
       filled: false,
-      image: 'https://res.cloudinary.com/adopt-a-pothole/image/upload/v1572992370/pko97kuqohnya41ybhgg.jpg',
+      image: 'https://res.cloudinary.com/adopt-a-pothole/image/upload/v1574091891/eiixhbtrqqcta3ftvogw.jpg',
+    });
+    Pothole.create({
+      zip: 70119,
+      median_income: 41304,
+      longitude: -90.0840,
+      latitude: 29.9856,
+      severity: 3,
+      title: 'Death from Below',
+      description: 'This pothole is extremely dangerous and has caused many accidents.',
+      fill_cost: 600,
+      money_donated: 0,
+      filled: false,
+      image: 'https://res.cloudinary.com/adopt-a-pothole/image/upload/v1574090611/q3kb0abh7dxlgcr7fjif.jpg',
     });
     Comment.create({
       pothole_id: 1,
