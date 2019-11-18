@@ -26,11 +26,16 @@ export default class PotholeProfile extends Component {
       donators: [],
       progressImage: null,
       text: '',
+      donationForm: false,
+      donation: 0,
     };
     this.handleImageProgress = this.handleImageProgress.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.toggleDonation = this.toggleDonation.bind(this);
+    this.handleDonation = this.handleDonation.bind(this);
+    this.handleDonationInput = this.handleDonationInput.bind(this);
   }
 
   componentDidMount() {
@@ -91,6 +96,37 @@ export default class PotholeProfile extends Component {
     });
   }
 
+  toggleDonation() {
+    let { donationForm } = this.state;
+    donationForm = !donationForm;
+    this.setState({
+      donationForm,
+    });
+  }
+
+  handleDonation() {
+    const { donation, potholeId } = this.state;
+    // grab pothole id and input value
+    axios.post('/donate', { donation, id: potholeId })
+      .then((response) => {
+        if (response.data === 'invalid') {
+          console.log('payment unsuccessful');
+        } else {
+          // redirect to paypal
+          window.location.href = response.data;
+          console.log('payment was successful');
+          this.toggleDonation();
+        }
+      });
+  }
+
+  handleDonationInput(event) {
+    const donation = event.target.value;
+    this.setState({
+      donation,
+    });
+  }
+
   render() {
     const { handleImageProgress } = this;
     const {
@@ -101,6 +137,7 @@ export default class PotholeProfile extends Component {
       progressImage
     } = this.state;
     const progress = Math.floor((pothole.money_donated / pothole.fill_cost) * 100);
+    const { donationForm } = this.state;
     return (
       <Grid>
         <Grid.Row>
@@ -136,6 +173,22 @@ export default class PotholeProfile extends Component {
                   <Item.Description>
                     <p>Percent Funded: </p>
                     <Progress percent={progress} progress indicating />
+                  </Item.Description>
+                  <Item.Description>
+                    <button
+                      type="button"
+                      className="ui primary button"
+                      onClick={this.toggleDonation}
+                    >
+                        Donate
+                    </button>
+                    {donationForm ? (
+                      <div>
+                        <input type="text" placeholder="Donation ex. 10.50" onChange={this.handleDonationInput} />
+                        <button type="button" onClick={this.handleDonation}>Pay with Paypal</button>
+                      </div>
+                    )
+                      : <div />}
                   </Item.Description>
                 </Item.Content>
               </Item>
