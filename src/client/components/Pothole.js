@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   Card,
   Image,
@@ -76,9 +77,11 @@ export default class Pothole extends Component {
       location,
       progress,
       index,
-      onClick
+      onClick,
+      id
     } = this.props;
     const { donationForm, donationMessage } = this.state;
+    const profile = `/profile/${id}`;
 
     return (
       <div id="pothole-profile">
@@ -87,7 +90,7 @@ export default class Pothole extends Component {
           <Card className="ui centered card">
             <Image src={image} avatar style={{ fontSize: 150 }} />
             <Card.Content>
-              <Card.Header>{title}</Card.Header>
+              <Card.Header as={Link} to={profile}>{title}</Card.Header>
               <Card.Meta>
                 <span className="date">{location}</span>
               </Card.Meta>

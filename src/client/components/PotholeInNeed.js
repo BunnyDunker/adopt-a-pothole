@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import {
   Card,
   Image,
@@ -12,13 +13,14 @@ const PotholeInNeed = ({ pothole, donationForm, toggleDonation, handleDonationIn
   const progress = Math.floor(
     (pothole.money_donated / pothole.fill_cost) * 100
   );
+  const profile = `/profile/${pothole.id}`;
   return (
     <div id="pothole-profile">
       <Container textAlign="center">
         <Card className="ui centered card">
           <Image src={pothole.image} avatar style={{ fontSize: 150 }} />
           <Card.Content>
-            <Card.Header>{pothole.title}</Card.Header>
+            <Card.Header as={Link} to={profile}>{pothole.title}</Card.Header>
             <Card.Meta>
               <span className="date">{pothole.zip}</span>
             </Card.Meta>
